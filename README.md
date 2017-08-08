@@ -1,91 +1,147 @@
 > This repository is for demonstration purposes of how it can be implemented in Angular and is not maintaned.
 Please fork and maintain your own version of this repository.
 
+# ngx-popover
 
-# ngx-modal
+Simple popover control for your angular2 applications using bootstrap3. Does not depend of jquery.
+If you don't want to use it without bootstrap - simply create proper css classes. Please star a project if you liked it,
+or create an issue if you have problems with it.
 
-Open modal window (dialog box) for your angular2 applications using bootstrap3. If you don't want to use it without bootstrap - simply create proper css classes. Please star a project if you liked it, or create an issue if you have problems with it.
+see [DEMO](http://plnkr.co/edit/tmGQ43m3OGhn8uoAYWua?p=preview).
+
+![angular 2 popover](https://raw.githubusercontent.com/pleerock/ngx-popover/master/resources/popover-example.png)
 
 ## Installation
 
 1. Install npm module:
     
-    `npm install ngx-modal --save`
+    `npm install ngx-popover --save`
 
 2. If you are using system.js you may want to add this into `map` and `package` config:
-
+    
     ```json
     {
         "map": {
-            "ngx-modal": "node_modules/ngx-modal"
+            "ngx-popover": "node_modules/ngx-popover"
         },
         "packages": {
-            "ngx-modal": { "main": "index.js", "defaultExtension": "js" }
+            "ngx-popover": { "main": "index.js", "defaultExtension": "js" }
         }
     }
     ```
 
-## Simple Modal
+## Usage
 
-Import `ModalModule` in your app. Then you can use `modal` component:
+Import `PopoverModule` in your app and start using a component:
 
 ```html
-<modal  title="Modal title"
-        cancelButtonLabel="cancel"
-        submitButtonLabel="submit"
-        modalClass="modal-lg modal-sm any-other-css-class"
-        [hideCloseButton]="true|false"
-        [closeOnEscape]="true|false"
-        [closeOnOutsideClick]="true|false"
-        (onOpen)="actionOnOpen()"
-        (onClose)="actionOnClose()"
-        (onSubmit)="actionOnSubmit()">
-
-    <modal-header>
-        Modal header content goes there.
-    </modal-header>
-
-    <modal-content>
-        Modal body content goes there.
-    </modal-content>
-
-    <modal-footer>
-        Modal footer content goes there.
-    </modal-footer>
-        
-</modal>
+<div popover="content to be shown in the popover"
+     popoverTitle="Popover header"
+     popoverPlacement="top"
+     [popoverOnHover]="false"
+     [popoverCloseOnClickOutside]="true"
+     [popoverCloseOnMouseOutside]="false"
+     [popoverDisabled]="false"
+     [popoverAnimation]="true"
+     [popoverDismissTimeout]="1000">
+    element on which this popover is applied.
+</div>
 ```
 
-## Router Modal
+Example of usage with dynamic html content:
 
-First, import `ModalModule` in your app.
-If you want your modals to be opened within routes,
-then `<route-modal></route-modal>` should be used instead.
+```html
+<popover-content #myPopover 
+                title="Popover title" 
+                placement="left"
+                [animation]="true" 
+                [closeOnClickOutside]="true" >
+    <b>Very</b> <span style="color: #C21F39">Dynamic</span> <span style="color: #00b3ee">Reusable</span>
+    <b><i><span style="color: #ffc520">Popover With</span></i></b> <small>Html support</small>.
+</popover-content>
+
+<button [popover]="myPopover">element on which this popover is applied.</button>
+```
+
+* `<div popover>`:
+    * `popover="string"` The message to be shown in the popover.
+    * `popoverTitle="string"` Popover title text.
+    * `popoverPlacement="top|bottom|left|right|auto|auto top|auto bottom|auto left|auto right"` Indicates where the popover should be placed. When using **"auto"** modifier, will show in opposite direction if not enough room. Default is **"bottom"**.
+    * `[popoverDisabled]="true|false"` Indicates if popover should be disabled. If popover is disabled then it will not be shown. Default is **false**
+    * `[popoverAnimation]="true|false"` Indicates if all popover should be shown with animation or not. Default is **true**.
+    * `[popoverOnHover]="true|false"` If set to true then popover will open on mouse over instead of mouse click. Default is **false**.
+    * `[popoverCloseOnMouseOutside]="true|false"` Indicates if popover should be closed when user mouse outside of it. Default is **false**.
+    * `[popoverCloseOnClickOutside]="true|false"` Indicates if popover should be closed when user click outside of it. Default is **false**.
+    * `[popoverDismissTimeout]="number"` Used to automatically dismiss popover after given amount of time. Default is **0**, means disabled.
+* `<popover-content>`:
+    * `placement="top|bottom|left|right|auto|auto top|auto bottom|auto left|auto right"` Indicates where the popover should be placed. When using **"auto"** modifier, will show in opposite direction if not enough room. Default is **"bottom"**.
+    * `[animation]="true|false"` Indicates if all popover should be shown with animation or not. Default is **true**.
+    * `[closeOnMouseOutside]="true|false"` Indicates if popover should be closed when user mouse outside of it. Default is **false**.
+    * `[closeOnClickOutside]="true|false"` Indicates if popover should be closed when you click outside of it. Default is **false**.
 
 ## Sample
 
 ```typescript
 import {Component} from "@angular/core";
-import {ModalModule} from "ngx-modal";
+import {PopoverModule} from "ngx-popover";
 
 @Component({
     selector: "app",
     template: `
-<div class="row">
-    <button (click)="myModal.open()">open my modal</button>
-    <modal #myModal>
-        <modal-header>
-            <h1>Modal header</h1>
-        </modal-header>
-        <modal-content>
-            Hello Modal!
-        </modal-content>
-        <modal-footer>
-            <button class="btn btn-primary" (click)="myModal.close()">close</button>
-        </modal-footer>
-    </modal>
+<div class="container">
+
+    <!-- regular popover -->
+    <p>
+        It is a long established <span popover="Hello fact!" popoverTitle="Fact #1"><b>click this fact</b></span> that a reader will be distracted by the readable content of a page when looking at its layout.
+        The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
+        <span popover="many, but not all" popoverPlacement="left"><b>Many desktop</b></span> publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
+        <span popover="various, but not all" popoverPlacement="right"><b>Various versions</b></span> have evolved over the years, sometimes by accident, <span popover="another hint" popoverPlacement="top"><b>sometimes on purpose</b></span> (injected humour and the like)
+    </p>
+
+    <br/>
+    <button popover="Hello popover. Now click outside." [popoverCloseOnClickOutside]="true">
+        click to open popover that will be closed when you click outside of it.
+    </button>
+
+    <!-- popover with dynamic html content -->
+    <br/><br/>
+    <div>
+        <popover-content #myPopover
+            title="this header can be omitted"
+            [closeOnClickOutside]="true">
+            <b>Very</b> <span style="color: #C21F39">Dynamic</span> <span style="color: #00b3ee">Reusable</span>
+            <b><i><span style="color: #ffc520">Popover With</span></i></b> <small>Html support</small>.
+            Click outside of this popover and it will be dismissed automatically.
+        </popover-content>
+
+        <button [popover]="myPopover">click this button to see a popover</button>
+    </div>
+
+    <!-- popover show on hover -->
+    <br/>
+    <div>
+        <button popover="Hello popover" [popoverOnHover]="true">hover this button to see a popover</button>
+    </div>
+
+    <!-- popover show on hover and hide only when mouse over outside of the popover -->
+    <br/>
+    <div>
+        <button popover="Hello popover"
+                popoverPlacement="right"
+                [popoverOnHover]="true"
+                [popoverCloseOnMouseOutside]="true">
+            hover this button to see a popover, allows to create interactive popovers
+        </button>
+    </div>
+
+    <!-- popover show on hover -->
+    <br/>
+    <div>
+        <button popover="Hello dismissible popover" [popoverDismissTimeout]="2000">click to see this popover. This popover will be dismissed in two seconds</button>
+    </div>
+
 </div>
-    `
+`
 })
 export class App {
 
@@ -94,7 +150,7 @@ export class App {
 @NgModule({
     imports: [
         // ...
-        ModalModule
+        PopoverModule
     ],
     declarations: [
         App
@@ -108,119 +164,5 @@ export class AppModule {
 }
 ```
 
-## More samples
-
-```html
-<!-- first modal: modal with custom header, content and footer -->
-<div class="row">
-    <button (click)="firstModal.open()">modal with custom header content and footer</button>
-    <modal #firstModal>
-        <modal-header>
-            <h1>I am first modal</h1>
-        </modal-header>
-        <modal-content>
-            This modal has its own header, content and footer.
-        </modal-content>
-        <modal-footer>
-            <button class="btn btn-primary" (click)="firstModal.close()">okay!</button>
-        </modal-footer>
-    </modal>
-</div>
-
-<!-- second modal: disable close button -->
-<div class="row">
-    <button (click)="secondModal.open()">modal without close button</button>
-    <modal #secondModal [hideCloseButton]="true">
-        <modal-header>
-            <h1>I am second modal</h1>
-        </modal-header>
-        <modal-content>
-            This modal does not have close button.
-        </modal-content>
-        <modal-footer>
-            <button class="btn btn-primary" (click)="secondModal.close()">okay!</button>
-        </modal-footer>
-    </modal>
-</div>
-
-<!-- third modal: disable close button -->
-<div class="row">
-    <button (click)="thirdModal.open()">modal that cannot be simply closed</button>
-    <modal #thirdModal [closeOnEscape]="false" [closeOnOutsideClick]="false">
-        <modal-header>
-            <h1>I am third modal</h1>
-        </modal-header>
-        <modal-content>
-            You cannot close this modal by pressing "ESC" button or clicking outside of the modal.
-        </modal-content>
-        <modal-footer>
-            <button class="btn btn-primary" (click)="thirdModal.close()">okay!</button>
-        </modal-footer>
-    </modal>
-</div>
-
-<!-- forth modal: this modal has default title and cancle button -->
-<div class="row">
-    <button (click)="forthModal.open()">modal that has title and cancel button</button>
-    <modal #forthModal title="I am forth modal" cancelButtonLabel="close it">
-        <modal-content>
-            You can simply use "title" attribute to provide a modal default header.<br/>
-            Also you can add default cancel button by providing a label to it.
-        </modal-content>
-    </modal>
-</div>
-
-<!-- fifth modal: this modal uses extra "large class" -->
-<div class="row">
-    <button (click)="fifthModal.open()">large modal</button>
-    <modal #fifthModal title="I am fifth modal" cancelButtonLabel="close it" modalClass="modal-lg">
-        <modal-content>
-            Very large modal.
-        </modal-content>
-    </modal>
-</div>
-
-<!-- sixth modal: this modal uses extra "small class" -->
-<div class="row">
-    <button (click)="sixthModal.open()">small modal</button>
-    <modal #sixthModal title="I am sixth modal" cancelButtonLabel="close it" modalClass="modal-sm">
-        <modal-content>
-            Very small modal.
-        </modal-content>
-    </modal>
-</div>
-
-<!-- seventh modal: this modal can listen close event -->
-<div class="row">
-    <button (click)="seventhModal.open()">it opens first modal after you close it</button>
-    <modal #seventhModal title="I am seventh modal" cancelButtonLabel="close it" (onClose)="firstModal.open()">
-        <modal-content>
-            Now try to close it and it will open you first modal.
-        </modal-content>
-    </modal>
-</div>
-
-<!-- eighth modal: this modal can listen open event -->
-<div class="row">
-    <button (click)="eighthModal.open()">it opens first modal right after you open it</button>
-    <modal #eighthModal title="I am eighth modal" cancelButtonLabel="close it" (onOpen)="firstModal.open()">
-        <modal-content>
-            This modal opened first modal right after you opened it.
-        </modal-content>
-    </modal>
-</div>
-
-<!-- ninth modal: this modal can do something after you click submit button -->
-<div class="row">
-    <button (click)="ninthModal.open()">it opens first modal after you click submit button</button>
-    <modal #ninthModal title="I am ninth modal" submitButtonLabel="submit" (onSubmit)="firstModal.open()">
-        <modal-content>
-            This modal has a submit button with your custom label. Also it can make an action after you
-            click that submit button. Here it will open you first modal after you click submit.
-        </modal-content>
-    </modal>
-</div>
-```
-
-Take a look on samples in [./sample](https://github.com/pleerock/ngx-modal/tree/master/sample) for more examples of
+Take a look on samples in [./sample](https://github.com/pleerock/ngx-popover/tree/master/sample) for more examples of
 usages.

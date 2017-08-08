@@ -1,21 +1,27 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { DatePickerComponent } from './date-picker/date-picker.component'
+import {CommonModule} from "@angular/common";
+import {Popover} from "./Popover";
+import {PopoverContent} from "./PopoverContent";
+import {NgModule} from "@angular/core";
+
+export * from "./Popover";
+export * from "./PopoverContent";
 
 @NgModule({
-	imports: [
-		CommonModule
-	],
-	declarations: [
-		DatePickerComponent,
-	],
-	exports: [
-		DatePickerComponent,
-	],
-	entryComponents: [
-		DatePickerComponent
-	]
+    imports: [
+        CommonModule
+    ],
+    declarations: [
+        PopoverContent,
+        Popover,
+    ],
+    exports: [
+        PopoverContent,
+        Popover,
+    ],
+    entryComponents: [
+        PopoverContent
+    ]
 })
-export class DynamicDatepickerModule {
+export class PopoverModule {
 
 }
