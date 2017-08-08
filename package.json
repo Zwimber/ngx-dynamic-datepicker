@@ -15,6 +15,21 @@
     "ngx",
     "angular2"
   ],
+  "devDependencies": {
+    "@angular/common": "^4.0.1",
+    "@angular/compiler": "^4.0.1",
+    "@angular/compiler-cli": "^4.0.1",
+    "@angular/core": "^4.0.1",
+    "@angular/forms": "^4.0.1",
+    "@angular/platform-browser": "^4.0.1",
+    "@angular/platform-browser-dynamic": "^4.0.1",
+    "@types/node": "^7.0.12",
+    "bootstrap": "^3.3.7",
+    "rxjs": "^5.3.0",
+    "tslint": "^5.0.0",
+    "typescript": "^2.4.2",
+    "zone.js": "^0.8.5"
+  },
   "author": "Zwimber",
   "license": "ISC",
   "bugs": {
