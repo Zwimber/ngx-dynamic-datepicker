@@ -1,0 +1,269 @@
+<!-- Optional form-horizontal -->
+<div
+	class="date-picker-root"
+	[class.form-horizontal]="descriptionPlacement === 'left'"
+>
+
+	<!-- Datepicker popover -->
+	<div class="form-group">
+
+		<!-- Description of field -->
+		<label
+			[attr.class]="descriptionPlacement === 'top' ? 'control-label col-xs-12' : 'control-label col-xs-4'"
+			*ngIf="dateDescription"
+		>
+			{{dateDescription}}
+		</label>
+
+		<!-- Datepicker dropdown -->
+		<div [attr.class]="!dateDescription || descriptionPlacement === 'top' ? 'col-xs-12' : 'col-xs-8'">
+
+			<!-- Input group -->
+			<div class="input-group" *ngIf="mobile === false && type === 'dropdown'">
+
+				<!-- Day -->
+				<select
+					class="form-control"
+					(change)="onDateChange('date', $event.target.value)"
+				>
+					<option
+						*ngFor="let day of d.days"
+						[attr.selected]="d.selected.date === day.value ? true : null"
+						[attr.hidden]="day.show ? null : true"
+						[value]="day.value"
+					>{{day.label}}
+					</option>
+				</select>
+
+				<span class="input-group-addon"></span>
+
+				<!-- Month -->
+				<select
+					class="form-control"
+					(change)="onDateChange('month', $event.target.value)"
+				>
+					<option
+						*ngFor="let month of d.months"
+						[attr.selected]="d.selected.month === month.value ? true : null"
+						[attr.hidden]="month.show ? null : true"
+						[value]="month.value"
+					>{{month.label}}
+					</option>
+				</select>
+
+				<span class="input-group-addon"></span>
+
+				<!-- Year -->
+				<select
+					class="form-control"
+					(change)="onDateChange('year', $event.target.value)"
+				>
+					<option
+						*ngFor="let year of d.years"
+						[attr.selected]="d.selected.year === year.value ? true : null"
+						[attr.hidden]="year.show ? null : true"
+						[value]="year.value"
+					>{{year.label}}
+					</option>
+				</select>
+
+				<!-- Addon -->
+				<span class="input-group-addon">
+					<i class="fa fa-fw fa-calendar"></i>
+				</span>
+
+			</div>
+			<!-- Datepicker dropdown -->
+
+			<!-- Datepicker popover -->
+			<div *ngIf="mobile === false && type === 'popover'">
+
+				<div class="input-group" [popover]="calendarPopover">
+					<input
+						type="string"
+						class="form-control"
+						placeholder="{{datePlaceholder}}"
+						(keydown)="$event.preventDefault()"
+						[attr.value]="d.moment ? d.moment.format(dateDisplayFormat) : ''"
+					>
+
+					<!-- Calender logo -->
+					<span class="input-group-addon">
+						<i class="fa fa-fw fa-calendar"></i>
+					</span>
+				</div>
+
+				<!-- Popover -->
+				<popover-content
+					#calendarPopover
+					[title]=""
+					[closeOnClickOutside]="true"
+				>
+					<div class="row">
+
+						<!-- Month selector -->
+						<div class="btn-group btn-block">
+							<a
+								class="btn btn-link col-xs-2"
+								[class.disabled]="d.calendar.view.month.previous ? null : true"
+								(click)="onCalendarViewChange('month', -1)"
+							><i class="fa fa-caret-left"></i></a>
+							<a
+								class="btn btn-link col-xs-8"
+								(click)="onCalendarViewChange('month',  0)"
+							>
+								{{this.d.calendar.view.label}}
+							</a>
+							<a
+								class="btn btn-link col-xs-2"
+								[class.disabled]="d.calendar.view.month.next ? null : true"
+								(click)="onCalendarViewChange('month',  1)"
+							>
+								<i class="fa fa-caret-right"></i>
+							</a>
+						</div>
+
+						<!-- Date selector -->
+						<table class="table text-center">
+							<thead>
+							<tr>
+								<th class="">ma</th>
+								<th class="">di</th>
+								<th class="">wo</th>
+								<th class="">do</th>
+								<th class="">vr</th>
+								<th class="weekend">za</th>
+								<th class="weekend">zo</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr *ngFor="let week of d.calendar.days">
+								<td
+									*ngFor="let day of week; let i = index;"
+									[ngClass]="{
+											'month-previous': day['month-previous'],
+											'month-current': day['month-current'],
+											'month-next': day['month-next'],
+											'date-range-before': day['date-range-before'],
+											'date-range-after': day['date-range-after'],
+											'past': day.past,
+											'today': day.today,
+											'selected': day.selected,
+											'weekend': i > 4
+										}"
+									(click)="onCalendarDateChange(day.value); calendarPopover.hide();"
+								>
+									{{day.label}}
+									<span></span>
+								</td>
+							</tr>
+
+							<!-- For lines -->
+							<tr>
+								<td style="padding: 0px;" colspan="7"></td>
+							</tr>
+							</tbody>
+						</table>
+
+						<!-- Clear button -->
+						<div
+							*ngIf="d.moment"
+							class="btn-group btn-block"
+
+						>
+							<a
+								class="btn btn-sm btn-link col-xs-5"
+								(click)="calendarPopover.hide(); onCalendarClear()"
+							>
+								<i class="fa fa-fw fa-trash-o "></i>
+								wis
+							</a>
+							<a
+								class="btn btn-sm btn-link col-xs-7"
+								(click)="calendarPopover.hide();"
+							>
+								annuleren
+							</a>
+						</div>
+					</div>
+				</popover-content>
+			</div>
+			<!-- Datepicker popover -->
+
+			<!-- Datepicker mobile -->
+			<div class="input-group" *ngIf="mobile === true">
+
+				<!-- Mobile datepicker -->
+				<input
+					type="date"
+					class="form-control"
+					(change)="onDateChange('YYYY-MM-DD', $event.target.value)"
+					[attr.placeholder]="datePlaceholder"
+					[attr.value]="d.moment ? d.moment.format('YYYY-MM-DD') : ''"
+					[attr.min]="d.calendar.view.from.format('YYYY-MM-DD')"
+					[attr.max]="d.calendar.view.to.format('YYYY-MM-DD')"
+				>
+
+				<!-- Calender logo -->
+				<span class="input-group-addon">
+					<i class="fa fa-fw fa-calendar"></i>
+				</span>
+			</div>
+			<!-- Datepicker mobile -->
+
+		</div>
+	</div>
+
+
+	<!-- Time picker -->
+	<div class="form-group" *ngIf="time">
+
+		<!-- Description of field -->
+		<label class="col-sm-4 control-label">{{timeDescription}}</label>
+
+		<!-- Right -->
+		<div class="col-sm-8">
+
+			<!-- Duration -->
+			<div
+				class="input-group"
+				*ngIf="time"
+			>
+
+				<!-- Time picker -->
+				<select
+					class="form-control"
+					(change)="onDateChange('HH:mm', $event.target.value)"
+				>
+					<option
+						*ngFor="let time of d.times"
+						[attr.selected]="d.selected.time === time.value ? true : null"
+						[attr.hidden]="time.show ? null : true"
+						[value]="time.value"
+					>{{time.label}}
+					</option>
+				</select>
+
+				<!-- Clock logo -->
+				<span class="input-group-addon">
+					<i class="fa fa-fw fa-clock-o"></i>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- Warnigns -->
+	<div class="form-group">
+
+		<div class="col-sm-4"></div>
+		<div class="col-sm-8">
+			<div
+				class="alert alert-{{warning.style}} {{warning.show === true ? '' : 'hidden'}}"
+				*ngFor="let warning of dateWarning"
+			>
+				<h4>{{warning.title}}</h4>
+				<p>{{warning.message}}</p>
+			</div>
+		</div>
+	</div>
+</div>
