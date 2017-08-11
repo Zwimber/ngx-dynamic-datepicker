@@ -1,27 +1,27 @@
-import {CommonModule} from "@angular/common";
-import {Popover} from "./Popover";
-import {PopoverContent} from "./PopoverContent";
 import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {Tooltip} from "./Tooltip";
+import {TooltipContent} from "./TooltipContent";
 
-export * from "./Popover";
-export * from "./PopoverContent";
+export * from "./Tooltip";
+export * from "./TooltipContent";
 
 @NgModule({
     imports: [
         CommonModule
     ],
     declarations: [
-        PopoverContent,
-        Popover,
+        Tooltip,
+        TooltipContent,
     ],
     exports: [
-        PopoverContent,
-        Popover,
+        Tooltip,
+        TooltipContent,
     ],
     entryComponents: [
-        PopoverContent
+        TooltipContent
     ]
 })
-export class PopoverModule {
+export class TooltipModule {
 
 }
