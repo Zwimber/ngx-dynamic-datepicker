@@ -21,7 +21,6 @@ export class ModalFooter { }
 @Component({
 	selector: 'modal',
 	styles: [`
-	
 .modal .modal-header.modal-header-success h4,
 .modal .modal-header.modal-header-warning h4,
 .modal .modal-header.modal-header-danger h4,

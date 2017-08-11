@@ -15,12 +15,18 @@ export * from "./modal/modal.component";
 		CommonModule
 	],
 	declarations: [
-		Modal, ModalContent, ModalFooter, ModalHeader,
+		Modal, 
+		ModalContent, 
+		ModalFooter, 
+		ModalHeader,
 	],
 	exports: [
-		Modal, ModalContent, ModalFooter, ModalHeader,
+		Modal, 
+		ModalContent, 
+		ModalFooter, 
+		ModalHeader,
 	]
 })
-export class TooltipModule {
+export class ModalModule {
 
 }
