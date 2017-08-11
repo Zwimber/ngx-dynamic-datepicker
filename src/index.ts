@@ -3,8 +3,11 @@ import {CommonModule} from "@angular/common";
 import {Tooltip} from "./Tooltip";
 import {TooltipContent} from "./TooltipContent";
 
+import { Modal, ModalContent, ModalFooter, ModalHeader } from './modal/modal.component'
+
 export * from "./Tooltip";
 export * from "./TooltipContent";
+export * from "./modal/modal.component";
 
 @NgModule({
     imports: [
@@ -12,11 +15,13 @@ export * from "./TooltipContent";
     ],
     declarations: [
         Tooltip,
-        TooltipContent,
+		TooltipContent,
+		Modal, ModalContent, ModalFooter, ModalHeader,
     ],
     exports: [
         Tooltip,
-        TooltipContent,
+		TooltipContent,
+		Modal, ModalContent, ModalFooter, ModalHeader,
     ],
     entryComponents: [
         TooltipContent
